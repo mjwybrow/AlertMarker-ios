@@ -7,6 +7,8 @@
 //
 
 #import <MapKit/MKUserLocation.h>
+#import <MapKit/MKPinAnnotationView.h>
+#import <MapKit/MKAnnotation.h>
 #import "AMViewController.h"
 
 @interface AMViewController ()
@@ -38,6 +40,12 @@
     // Set the delegate so we can respond to user location changes (and lookup addresses)
     self.mapView.delegate = self;
 
+    // Recognise a long press of 1 second.
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] 
+                                          initWithTarget:self action:@selector(addLocationPin:)];
+    lpgr.minimumPressDuration = 1.0;
+    lpgr.cancelsTouchesInView = NO;
+    [self.mapView addGestureRecognizer:lpgr];
 }
 
 - (void)viewDidUnload
@@ -74,6 +82,34 @@
     }
     return nil;
 }
+
+- (void)addLocationPin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state != UIGestureRecognizerStateBegan) {
+        return;
+    }
+
+    // Find the touch location on the map.
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
+    CLLocationCoordinate2D touchMapCoordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+    
+    // Create an annotation for the location
+    MKPointAnnotation *annotion = [[MKPointAnnotation alloc] init];
+    annotion.coordinate = touchMapCoordinate;
+    annotion.title = @"Pin";
+    [self.mapView addAnnotation:annotion];
+    
+    NSLog(@"Long press as latitude: %f, longitude: %f", touchMapCoordinate.latitude, touchMapCoordinate.longitude);
+
+    // Asyncronously find the address for the location.
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:touchMapCoordinate.latitude longitude:touchMapCoordinate.longitude];
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSLog(@"handleLongPress: reverseGeocodeLocation: Completion Handler called!");
+        
+        annotion.title = [self addressStringFromPlacemarks:placemarks];
+    }];
+}
+
 
 #pragma mark -
 #pragma mark MKMapView delegate
