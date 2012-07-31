@@ -135,4 +135,46 @@
     }
 }
 
+- (MKAnnotationView *)mapView:(MKMapView *)thisMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    // Create the Pin Annotation View ourselves, so we can add a delete button to it.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+    {
+        // userLocation is a special Pin Annotation View.  Don't replace this.
+        return nil;
+    }
+
+    //These pin views are added to a resuse queue when they are deleted, so we try taking one from the reuse queue...
+    MKPinAnnotationView *pinView = (MKPinAnnotationView *)[thisMapView dequeueReusableAnnotationViewWithIdentifier:@"pinView"];
+    if (!pinView)
+    {
+        // Otherwise we create and initialise a new one.
+        pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pinView"];
+        pinView.pinColor = MKPinAnnotationColorRed;
+        pinView.animatesDrop = YES;
+        pinView.canShowCallout = YES;
+
+        // Add the delete button to the annotation callout
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage *img = [UIImage imageNamed:@"DeleteButton.png"];
+        button.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+        [button setImage:img forState:UIControlStateNormal];
+        button.contentMode = UIViewContentModeScaleToFill;
+        pinView.rightCalloutAccessoryView = button;
+    }
+    else
+    {
+        pinView.annotation = annotation;
+    }
+    
+    return pinView;
+}
+
+- (void)mapView:(MKMapView *)thisMapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    // This is called when the user taps the accessory view in a pin annotation view, that is our delete button.
+    [thisMapView removeAnnotation:view.annotation];
+}
+
+
 @end
