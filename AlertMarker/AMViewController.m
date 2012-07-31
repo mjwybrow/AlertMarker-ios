@@ -9,12 +9,14 @@
 #import <MapKit/MKUserLocation.h>
 #import <MapKit/MKPinAnnotationView.h>
 #import <MapKit/MKAnnotation.h>
+#import <sqlite3.h>
 #import "AMViewController.h"
 
 @interface AMViewController ()
 {
     CLGeocoder *geocoder;
     BOOL geocoderIsBusy;
+    sqlite3 *locationDatabase;
 }
 
 @end
@@ -46,12 +48,38 @@
     lpgr.minimumPressDuration = 1.0;
     lpgr.cancelsTouchesInView = NO;
     [self.mapView addGestureRecognizer:lpgr];
+
+    // Try to open database.  sqlite3_open will create DB if it doesn't exist.
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL dbExists = [fileManager fileExistsAtPath:self.databasePath];
+    if (sqlite3_open([self.databasePath UTF8String], &locationDatabase) != SQLITE_OK)
+    {
+        locationDatabase = nil;
+        NSLog(@"Database failed to load");
+    }
+
+    if (dbExists == NO)
+    {
+        // Create the locations table.
+        NSString *sql = @"CREATE TABLE locations (latitude REAL, logitude REAL, address TEXT);";
+        sqlite3_exec(locationDatabase, [sql UTF8String], NULL, NULL, NULL);
+    }
+    else
+    {
+        [self loadState];
+    }
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+
+    if (locationDatabase)
+    {
+        sqlite3_close(locationDatabase);
+        locationDatabase = nil;
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -174,6 +202,66 @@
 {
     // This is called when the user taps the accessory view in a pin annotation view, that is our delete button.
     [thisMapView removeAnnotation:view.annotation];
+}
+
+#pragma mark -
+#pragma mark Persistent storage
+
+- (NSString *)databasePath
+{
+    NSString *databaseName = @"locations.db";
+    
+    // Get the path to the documents directory and append the databaseName
+    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDir = [documentPaths objectAtIndex:0];
+    return [documentsDir stringByAppendingPathComponent:databaseName];
+}
+
+- (void)saveState
+{
+    if (locationDatabase)
+    {
+        // CLear the table.
+        NSString *sql = @"DELETE FROM locations;";
+        sqlite3_exec(locationDatabase, [sql UTF8String], NULL, NULL, NULL);
+        
+        // Save user-created pin locations.
+        for (MKShape *annotation in self.mapView.annotations)
+        {
+            // Don't store the userLocation annotation.
+            if ([annotation isEqual:self.mapView.userLocation] == NO)
+            {
+                // Create the locations table.
+                sql = [NSString stringWithFormat:@"INSERT INTO locations(latitude, logitude, address) VALUES(%f, %f, '%@');", annotation.coordinate.latitude, annotation.coordinate.longitude, annotation.title];
+                sqlite3_exec(locationDatabase, [sql UTF8String], NULL, NULL, NULL);
+            }
+        }
+    }
+}
+
+- (void)loadState
+{
+    // Load saved locations.
+    sqlite3_stmt *compiledStatement = nil;        
+    NSString *sql = @"SELECT latitude, logitude, address FROM locations";
+    if (sqlite3_prepare_v2(locationDatabase, [sql UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK)
+    {
+        while (sqlite3_step(compiledStatement) == SQLITE_ROW) 
+        {
+            CLLocationDegrees latitude = (CLLocationDegrees) sqlite3_column_double(compiledStatement, 0);
+            CLLocationDegrees longitude = (CLLocationDegrees) sqlite3_column_double(compiledStatement, 1);
+            NSString *address = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 2)];
+            
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
+            
+            // Create an annotation for the location
+            MKPointAnnotation *annotion = [[MKPointAnnotation alloc] init];
+            annotion.coordinate = coordinate;
+            annotion.title = address;
+            [self.mapView addAnnotation:annotion];
+        }
+    }
+    sqlite3_finalize(compiledStatement);
 }
 
 

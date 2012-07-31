@@ -15,4 +15,6 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
 
 
+- (void)saveState;
+
 @end

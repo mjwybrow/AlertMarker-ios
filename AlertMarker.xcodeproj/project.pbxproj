@@ -13,6 +13,8 @@
 		7879018A15C770BB0001A993 /* MyLocationButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7879018815C770BB0001A993 /* MyLocationButton@2x.png */; };
 		7879018D15C77BD90001A993 /* DeleteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7879018B15C77BD90001A993 /* DeleteButton.png */; };
 		7879018E15C77BD90001A993 /* DeleteButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7879018C15C77BD90001A993 /* DeleteButton@2x.png */; };
+		7879019015C77D6A0001A993 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7879018F15C77D6A0001A993 /* libsqlite3.dylib */; };
+		7879019215C77D760001A993 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7879019115C77D760001A993 /* libz.dylib */; };
 		78CD8A0515C7682B0076F434 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CD8A0415C7682B0076F434 /* UIKit.framework */; };
 		78CD8A0715C7682B0076F434 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CD8A0615C7682B0076F434 /* Foundation.framework */; };
 		78CD8A0915C7682B0076F434 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CD8A0815C7682B0076F434 /* CoreGraphics.framework */; };
@@ -31,6 +33,8 @@
 		7879018815C770BB0001A993 /* MyLocationButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyLocationButton@2x.png"; sourceTree = "<group>"; };
 		7879018B15C77BD90001A993 /* DeleteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteButton.png; sourceTree = "<group>"; };
 		7879018C15C77BD90001A993 /* DeleteButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteButton@2x.png"; sourceTree = "<group>"; };
+		7879018F15C77D6A0001A993 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		7879019115C77D760001A993 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		78CD8A0015C7682B0076F434 /* AlertMarker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlertMarker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78CD8A0415C7682B0076F434 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		78CD8A0615C7682B0076F434 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -52,6 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7879019215C77D760001A993 /* libz.dylib in Frameworks */,
+				7879019015C77D6A0001A993 /* libsqlite3.dylib in Frameworks */,
 				7879018515C76B270001A993 /* CoreLocation.framework in Frameworks */,
 				7879018215C76B1F0001A993 /* MapKit.framework in Frameworks */,
 				78CD8A0515C7682B0076F434 /* UIKit.framework in Frameworks */,
@@ -94,6 +100,8 @@
 		78CD8A0315C7682B0076F434 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7879019115C77D760001A993 /* libz.dylib */,
+				7879018F15C77D6A0001A993 /* libsqlite3.dylib */,
 				7879018415C76B270001A993 /* CoreLocation.framework */,
 				7879018115C76B1F0001A993 /* MapKit.framework */,
 				78CD8A0415C7682B0076F434 /* UIKit.framework */,
