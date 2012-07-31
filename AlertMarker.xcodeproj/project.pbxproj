@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7879018215C76B1F0001A993 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7879018115C76B1F0001A993 /* MapKit.framework */; };
 		7879018515C76B270001A993 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7879018415C76B270001A993 /* CoreLocation.framework */; };
+		7879018915C770BB0001A993 /* MyLocationButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7879018715C770BB0001A993 /* MyLocationButton.png */; };
+		7879018A15C770BB0001A993 /* MyLocationButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7879018815C770BB0001A993 /* MyLocationButton@2x.png */; };
 		78CD8A0515C7682B0076F434 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CD8A0415C7682B0076F434 /* UIKit.framework */; };
 		78CD8A0715C7682B0076F434 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CD8A0615C7682B0076F434 /* Foundation.framework */; };
 		78CD8A0915C7682B0076F434 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CD8A0815C7682B0076F434 /* CoreGraphics.framework */; };
@@ -23,6 +25,8 @@
 /* Begin PBXFileReference section */
 		7879018115C76B1F0001A993 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		7879018415C76B270001A993 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7879018715C770BB0001A993 /* MyLocationButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyLocationButton.png; sourceTree = "<group>"; };
+		7879018815C770BB0001A993 /* MyLocationButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyLocationButton@2x.png"; sourceTree = "<group>"; };
 		78CD8A0015C7682B0076F434 /* AlertMarker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlertMarker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78CD8A0415C7682B0076F434 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		78CD8A0615C7682B0076F434 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -55,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7879018615C770880001A993 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				7879018715C770BB0001A993 /* MyLocationButton.png */,
+				7879018815C770BB0001A993 /* MyLocationButton@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		78CD89F515C7682B0076F434 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +106,7 @@
 				78CD8A1715C7682B0076F434 /* AMViewController.m */,
 				78CD8A1915C7682B0076F434 /* AMViewController_iPhone.xib */,
 				78CD8A1C15C7682B0076F434 /* AMViewController_iPad.xib */,
+				7879018615C770880001A993 /* Images */,
 				78CD8A0B15C7682B0076F434 /* Supporting Files */,
 			);
 			path = AlertMarker;
@@ -164,6 +178,8 @@
 				78CD8A0F15C7682B0076F434 /* InfoPlist.strings in Resources */,
 				78CD8A1B15C7682B0076F434 /* AMViewController_iPhone.xib in Resources */,
 				78CD8A1E15C7682B0076F434 /* AMViewController_iPad.xib in Resources */,
+				7879018915C770BB0001A993 /* MyLocationButton.png in Resources */,
+				7879018A15C770BB0001A993 /* MyLocationButton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

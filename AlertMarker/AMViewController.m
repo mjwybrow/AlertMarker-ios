@@ -18,6 +18,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+                
+    // Add myLocation button to toolbar.
+    UIBarButtonItem *myLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"MyLocationButton.png"] style:UIBarButtonItemStylePlain target:self action:@selector(findMyLocation:)];
+    [self.toolbar setItems:[NSArray arrayWithObject:myLocationButton]];
 }
 
 - (void)viewDidUnload
@@ -34,5 +38,12 @@
         return YES;
     }
 }
+
+- (void)findMyLocation:(id)sender
+{
+    // Center on the user's location and start tracking.
+    [self.mapView setUserTrackingMode: MKUserTrackingModeFollow animated:YES];
+}
+
 
 @end
